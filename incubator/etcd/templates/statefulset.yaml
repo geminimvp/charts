@@ -107,7 +107,7 @@ spec:
             fi
 
             # etcd-SET_ID
-            SET_ID=${HOSTNAME:5:${#HOSTNAME}}
+            SET_ID=${HOSTNAME##*-}
 
             # adding a new member to existing cluster (assuming all initial pods are available)
             if [ "${SET_ID}" -ge ${INITIAL_CLUSTER_SIZE} ]; then
