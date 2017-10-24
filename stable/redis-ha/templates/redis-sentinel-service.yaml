@@ -5,7 +5,7 @@ metadata:
     name: {{ template "redis-ha.name" . }}-sentinel-svc
     role: service
 {{ include "redis-ha.labels.standard" . | indent 4 }}
-  name: redis-sentinel
+  name: {{ template "redis-ha.fullname" . }}-sentinel
 spec:
   ports:
     - port: 26379

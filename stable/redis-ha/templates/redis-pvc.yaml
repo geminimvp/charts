@@ -3,7 +3,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "redis-ha.fullname" . }}-pvc
+  name: {{ template "redis-ha.fullname" . }}
   labels:
 {{ include "redis-ha.labels.standard" . | indent 4 }}
   annotations:
