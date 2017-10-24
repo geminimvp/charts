@@ -1,10 +1,10 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}
+  name: {{ template "redis-ha.fullname" . }}
   labels:
     redis-node: "true"
-{{ include "labels.standard" . | indent 4 }}
+{{ include "redis-ha.labels.standard" . | indent 4 }}
 spec:
   replicas: {{ .Values.replicas.slave }}
   template:
@@ -12,7 +12,7 @@ spec:
       labels:
         name: redis
         role: replica
-{{ include "labels.standard" . | indent 8 }}
+{{ include "redis-ha.labels.standard" . | indent 8 }}
     spec:
       containers:
       - name: redis
@@ -28,7 +28,7 @@ spec:
       - name: data
       {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistentVolume.existingClaim }}{{ .Values.persistentVolume.existingClaim }}{{- else }}{{ template "fullname" . }}{{- end }}
+          claimName: {{ if .Values.persistentVolume.existingClaim }}{{ .Values.persistentVolume.existingClaim }}{{- else }}{{ template "redis-ha.fullname" . }}{{- end }}
       {{- else }}
         emptyDir: {}
       {{- end -}}

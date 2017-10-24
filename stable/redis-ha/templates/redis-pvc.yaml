@@ -3,9 +3,9 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ template "fullname" . }}-pvc
+  name: {{ template "redis-ha.fullname" . }}-pvc
   labels:
-{{ include "labels.standard" . | indent 4 }}
+{{ include "redis-ha.labels.standard" . | indent 4 }}
   annotations:
   {{- if .Values.persistentVolume.storageClass }}
     volume.beta.kubernetes.io/storage-class: "{{ .Values.persistentVolume.storageClass }}"

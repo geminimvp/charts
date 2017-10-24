@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-sentinel
+  name: {{ template "redis-ha.fullname" . }}-sentinel
 spec:
   replicas: {{ .Values.replicas.sentinel }}
   template:
@@ -10,7 +10,7 @@ spec:
         name: redis-sentinel
         redis-sentinel: "true"
         role: sentinel
-{{ include "labels.standard" . | indent 8 }}
+{{ include "redis-ha.labels.standard" . | indent 8 }}
     spec:
       containers:
       - name: sentinel

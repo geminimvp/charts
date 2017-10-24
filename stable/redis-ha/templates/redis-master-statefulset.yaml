@@ -2,12 +2,12 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   labels:
-    name: {{ template "name" . }}-master
+    name: {{ template "redis-ha.name" . }}-master
     redis-sentinel: "true"
     redis-node: "true"
     role: master
-{{ include "labels.standard" . | indent 4 }}
-  name: {{ template "fullname" . }}-master
+{{ include "redis-ha.labels.standard" . | indent 4 }}
+  name: {{ template "redis-ha.fullname" . }}-master
 spec:
   serviceName: "redis"
   replicas: {{ .Values.replicas.master }}
@@ -18,7 +18,7 @@ spec:
         redis-sentinel: "true"
         redis-node: "true"
         role: master
-{{ include "labels.standard" . | indent 8 }}
+{{ include "redis-ha.labels.standard" . | indent 8 }}
     spec:
       terminationGracePeriodSeconds: 10
       containers:
@@ -48,7 +48,7 @@ spec:
       - name: data
       {{- if .Values.persistentVolume.enabled }}
         persistentVolumeClaim:
-          claimName: {{ if .Values.persistentVolume.existingClaim }}{{ .Values.persistentVolume.existingClaim }}{{- else }}{{ template "name" . }}{{- end }}
+          claimName: {{ if .Values.persistentVolume.existingClaim }}{{ .Values.persistentVolume.existingClaim }}{{- else }}{{ template "redis-ha.fullname" . }}{{- end }}
       {{- else }}
         emptyDir: {}
       {{- end -}}
